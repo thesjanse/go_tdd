@@ -1,6 +1,15 @@
 package integers
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
+
+func ExampleAdd() {
+	sum := Add(10, 15)
+	fmt.Println(sum)
+	// Output: 25
+}
 
 func assertCorrectMessage(t testing.TB, actual, expected int) {
 	t.Helper()
@@ -10,8 +19,15 @@ func assertCorrectMessage(t testing.TB, actual, expected int) {
 }
 
 func TestAdder(t *testing.T) {
-	actual := Add(2, 2)
-	expected := 4
+	t.Run("Add different numbers", func(t *testing.T) {
+		actual := Add(5, 9)
+		expected := 14
+		assertCorrectMessage(t, actual, expected)
+	})
 
-	assertCorrectMessage(t, actual, expected)
+	t.Run("Add identical numbers", func(t *testing.T) {
+		actual := Add(2, 2)
+		expected := 4
+		assertCorrectMessage(t, actual, expected)
+	})
 }
