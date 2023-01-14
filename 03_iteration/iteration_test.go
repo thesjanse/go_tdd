@@ -1,6 +1,14 @@
 package iteration
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
+
+func ExampleRepeat() {
+	fmt.Println(Repeat("z", 3))
+	// Output: zzz
+}
 
 func assertCorrectMessage(t testing.TB, actual, expected string) {
 	t.Helper()
