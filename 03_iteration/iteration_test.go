@@ -16,3 +16,9 @@ func TestRepeat(t *testing.T) {
 		assertCorrectMessage(t, actual, expected)
 	})
 }
+
+func BenchmarkRepeat(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Repeat("z", 5)
+	}
+}
