@@ -9,7 +9,7 @@ func Sum(numbers []int) int {
 }
 
 func SumAll(slices ...[]int) []int {
-	result := make([]int, 0)
+	var result []int
 	for _, slice := range slices {
 		result = append(result, Sum(slice))
 	}
