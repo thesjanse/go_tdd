@@ -15,3 +15,11 @@ func SumAll(slices ...[]int) []int {
 	}
 	return result
 }
+
+func SumAllTails(slices ...[]int) []int {
+	var result []int
+	for _, slice := range slices {
+		result = append(result, Sum(slice[1:]))
+	}
+	return result
+}
