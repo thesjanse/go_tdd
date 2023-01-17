@@ -61,4 +61,16 @@ func TestSumAllTails(t *testing.T) {
 		expected := []int{2, 13}
 		assertSliceMessage(t, actual, expected)
 	})
+
+	t.Run("empty slice", func(t *testing.T) {
+		actual := SumAllTails([]int{})
+		expected := []int{0}
+		assertSliceMessage(t, actual, expected)
+	})
+
+	t.Run("empty tail", func(t *testing.T) {
+		actual := SumAllTails([]int{10})
+		expected := []int{0}
+		assertSliceMessage(t, actual, expected)
+	})
 }
