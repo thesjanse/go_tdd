@@ -5,13 +5,6 @@ import (
 	"testing"
 )
 
-func assertCorrectMessage(t testing.TB, actual, expected int, numbers []int) {
-	t.Helper()
-	if actual != expected {
-		t.Errorf("Expected '%d' but got '%d' from '%v'", expected, actual, numbers)
-	}
-}
-
 func assertSliceMessage(t testing.TB, actual, expected []int) {
 	t.Helper()
 	if !reflect.DeepEqual(actual, expected) {
@@ -20,6 +13,13 @@ func assertSliceMessage(t testing.TB, actual, expected []int) {
 }
 
 func TestSum(t *testing.T) {
+
+	assertCorrectMessage := func(t testing.TB, actual, expected int, numbers []int) {
+		t.Helper()
+		if actual != expected {
+			t.Errorf("Expected '%d' but got '%d' from '%v'", expected, actual, numbers)
+		}
+	}
 
 	t.Run("collection of 3 elements", func(t *testing.T) {
 		numbers := []int{10, 20, 33}
