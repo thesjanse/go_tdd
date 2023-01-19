@@ -1,5 +1,14 @@
 package smi
 
-func Perimeter(width, height float64) float64 {
-	return (width + height) * 2
+type Rectangle struct {
+	width  float64
+	height float64
+}
+
+func Perimeter(r Rectangle) float64 {
+	return (r.width + r.height) * 2
+}
+
+func Area(r Rectangle) float64 {
+	return r.width * r.height
 }
