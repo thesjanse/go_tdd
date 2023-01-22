@@ -24,7 +24,7 @@ func (c Circle) Area() float64 {
 }
 
 func (c Circle) Perimeter() float64 {
-	return 0
+	return 2 * math.Pi * c.Radius
 }
 
 type Triangle struct {

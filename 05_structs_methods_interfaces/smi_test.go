@@ -23,6 +23,8 @@ func TestPerimeter(t *testing.T) {
 		expected float64
 	}{
 		{name: "square", shape: Rectangle{10.0, 10.0}, expected: 40.0},
+		{name: "rectangle", shape: Rectangle{5.0, 10.0}, expected: 30.0},
+		{name: "circle", shape: Circle{10.0}, expected: 62.83185307179586},
 	}
 	for _, tt := range perimeterTests {
 		t.Run(tt.name, func(t *testing.T) {
