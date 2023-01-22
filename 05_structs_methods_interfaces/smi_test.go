@@ -25,6 +25,7 @@ func TestPerimeter(t *testing.T) {
 		{name: "square", shape: Rectangle{10.0, 10.0}, expected: 40.0},
 		{name: "rectangle", shape: Rectangle{5.0, 10.0}, expected: 30.0},
 		{name: "circle", shape: Circle{10.0}, expected: 62.83185307179586},
+		{name: "triangle", shape: Triangle{10.0, 10.0, 10.0, 8.66}, expected: 30.0},
 	}
 	for _, tt := range perimeterTests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -49,7 +50,7 @@ func TestArea(t *testing.T) {
 	}{
 		{name: "Rectangle", shape: Rectangle{10.0, 10.0}, expected: 100.0},
 		{name: "Circle", shape: Circle{10.0}, expected: 314.1592653589793},
-		{name: "Triangle", shape: Triangle{12.0, 6.0}, expected: 36.0},
+		{name: "Triangle", shape: Triangle{10.0, 10.0, 10.0, 8.66}, expected: 43.3},
 	}
 	for _, tt := range areaTests {
 		t.Run(tt.name, func(t *testing.T) {

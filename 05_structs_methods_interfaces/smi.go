@@ -28,7 +28,9 @@ func (c Circle) Perimeter() float64 {
 }
 
 type Triangle struct {
+	SideA  float64
 	Base   float64
+	SideB  float64
 	Height float64
 }
 
@@ -37,7 +39,7 @@ func (t Triangle) Area() float64 {
 }
 
 func (t Triangle) Perimeter() float64 {
-	return 0
+	return t.SideA + t.Base + t.SideB
 }
 
 type Shape interface {
