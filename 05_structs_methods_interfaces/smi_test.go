@@ -10,11 +10,25 @@ func assert(t testing.TB, actual, expected float64) {
 }
 
 func TestPerimeter(t *testing.T) {
-	t.Run("square", func(t *testing.T) {
-		actual := Rectangle{10.0, 10.0}.Perimeter()
-		expected := 40.0
-		assert(t, actual, expected)
-	})
+	checkPerimeter := func(t testing.TB, name string, shape Shape, expected float64) {
+		t.Helper()
+		actual := shape.Perimeter()
+		if actual != expected {
+			t.Errorf("%#v expected '%g' but got '%g'", name, expected, actual)
+		}
+	}
+	perimeterTests := []struct {
+		name     string
+		shape    Shape
+		expected float64
+	}{
+		{name: "square", shape: Rectangle{10.0, 10.0}, expected: 40.0},
+	}
+	for _, tt := range perimeterTests {
+		t.Run(tt.name, func(t *testing.T) {
+			checkPerimeter(t, tt.name, tt.shape, tt.expected)
+		})
+	}
 }
 
 func TestArea(t *testing.T) {
