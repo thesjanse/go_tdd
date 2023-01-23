@@ -6,7 +6,7 @@ func TestWallet(t *testing.T) {
 	assert := func(t testing.TB, actual, expected Bitcoin) {
 		t.Helper()
 		if actual != expected {
-			t.Errorf("Actual: '%d'; Expected: '%d'", actual, expected)
+			t.Errorf("Actual: '%s'; Expected: '%s'", actual, expected)
 		}
 	}
 
