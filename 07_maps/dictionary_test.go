@@ -4,8 +4,8 @@ import "testing"
 
 func TestSearch(t *testing.T) {
 	t.Run("search for existing word", func(t *testing.T) {
-		d := map[string]string{"test": "simple test"}
-		actual := Search(d, "test")
+		d := Dictionary{"test": "simple test"}
+		actual := d.Search("test")
 		expected := "simple test"
 		assertStrings(t, actual, expected)
 	})
