@@ -16,6 +16,17 @@ func TestSearch(t *testing.T) {
 		expected := ErrorWordNotFound
 		assertError(t, actual, expected)
 	})
+
+	t.Run("add new word to dictionary", func(t *testing.T) {
+		d := Dictionary{"test": "simple test"}
+		d.AddWord("terra", "earth")
+		actual, err := d.Search("terra")
+		expected := "earth"
+		if err != nil {
+			t.Fatal("Didn't find a word:", err)
+		}
+		assertStrings(t, actual, expected)
+	})
 }
 
 func assertError(t testing.TB, actual, expected error) {
