@@ -19,14 +19,30 @@ func TestSearch(t *testing.T) {
 
 	t.Run("add new word to dictionary", func(t *testing.T) {
 		d := Dictionary{"test": "simple test"}
-		d.AddWord("terra", "earth")
-		actual, err := d.Search("terra")
+		word := "terra"
 		expected := "earth"
-		if err != nil {
-			t.Fatal("Didn't find a word:", err)
-		}
-		assertStrings(t, actual, expected)
+		d.AddWord(word, expected)
+		assertDefinition(t, d, word, expected)
 	})
+
+	t.Run("add existing word to dictionary", func(t *testing.T) {
+		word := "terra"
+		definition := "earth"
+		new_definition := "country"
+		d := Dictionary{word: definition}
+		err := d.AddWord(word, new_definition)
+		assertError(t, err, ErrorWordAlreadyExists)
+		assertDefinition(t, d, word, definition)
+	})
+}
+
+func assertDefinition(t testing.TB, d Dictionary, word, expected string) {
+	t.Helper()
+	actual, err := d.Search(word)
+	if err != nil {
+		t.Fatal("Didn't find a word:", err)
+	}
+	assertStrings(t, actual, expected)
 }
 
 func assertError(t testing.TB, actual, expected error) {
