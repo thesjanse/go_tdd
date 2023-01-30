@@ -1,11 +1,16 @@
 package dictionary
 
-import "errors"
-
 type Dictionary map[string]string
+type DictionaryErr string
 
-var ErrorWordNotFound = errors.New("Word not found")
-var ErrorWordAlreadyExists = errors.New("Word already exists")
+const (
+	ErrorWordNotFound      = DictionaryErr("Word not found")
+	ErrorWordAlreadyExists = DictionaryErr("Word already exists")
+)
+
+func (e DictionaryErr) Error() string {
+	return string(e)
+}
 
 func (d Dictionary) Search(s string) (string, error) {
 	value, success := d[s]
@@ -15,6 +20,7 @@ func (d Dictionary) Search(s string) (string, error) {
 	return value, nil
 }
 
+// add replace definition functionality
 func (d Dictionary) AddWord(key, value string) error {
 	_, err := d.Search(key)
 	switch err {
