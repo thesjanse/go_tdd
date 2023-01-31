@@ -53,6 +53,23 @@ func TestSearch(t *testing.T) {
 		err := d.UpdateWord(newWord, newDefinition)
 		assertError(t, err, ErrorWordDoesNotExist)
 	})
+
+	t.Run("delete existing word in dictionary", func(t *testing.T) {
+		word := "terra"
+		definition := "earth"
+		d := Dictionary{word: definition}
+		d.DeleteWord(word)
+		_, actual := d.Search(word)
+		expected := ErrorWordNotFound
+		assertError(t, actual, expected)
+	})
+
+	t.Run("delete non-existing word in dictionary", func(t *testing.T) {
+		d := Dictionary{}
+		actual := d.DeleteWord("terra")
+		expected := ErrorWordDoesNotExist
+		assertError(t, actual, expected)
+	})
 }
 
 func assertDefinition(t testing.TB, d Dictionary, word, expected string) {
