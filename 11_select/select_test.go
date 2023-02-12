@@ -8,26 +8,48 @@ import (
 )
 
 func TestRacer(t *testing.T) {
-	slowServer := makeServer(2)
-	fastServer := makeServer(0)
-	defer slowServer.Close()
-	defer fastServer.Close()
+	t.Run("test delayed server", func(t *testing.T) {
+		slowServer := makeServer(2)
+		fastServer := makeServer(0)
+		defer slowServer.Close()
+		defer fastServer.Close()
 
-	slowURL := slowServer.URL
-	fastURL := fastServer.URL
+		slowURL := slowServer.URL
+		fastURL := fastServer.URL
 
-	expected := fastURL
-	actual := Racer(slowURL, fastURL)
+		expected := fastURL
+		actual, _ := Racer(slowURL, fastURL)
 
-	if actual != expected {
-		t.Errorf("Actual: '%s'; expected: '%s'.", actual, expected)
-	}
+		if actual != expected {
+			t.Errorf("Actual: '%s'; expected: '%s'.", actual, expected)
+		}
+	})
+
+	t.Run("test timeout", func(t *testing.T) {
+		serverA := makeServer(10 * time.Second)
+		serverB := makeServer(11 * time.Second)
+		defer serverA.Close()
+		defer serverB.Close()
+
+		_, err := Racer(serverA.URL, serverB.URL)
+		assertError(t, err, ErrorTimeout)
+	})
 }
 
-func makeServer(delay int) (server *httptest.Server) {
+func makeServer(delay time.Duration) (server *httptest.Server) {
 	server = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(time.Duration(delay))
+		time.Sleep(delay)
 		w.WriteHeader(http.StatusOK)
 	}))
 	return
+}
+
+func assertError(t testing.TB, actual, expected error) {
+	t.Helper()
+	if actual == nil {
+		t.Fatal("Didn't got an error!")
+	}
+	if actual != expected {
+		t.Errorf("Actual: '%q' but expected: '%q", actual, expected)
+	}
 }

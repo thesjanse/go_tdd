@@ -1,22 +1,21 @@
 package selecto
 
 import (
+	"errors"
 	"net/http"
 	"time"
 )
 
-func measureResponseTime(url string) time.Duration {
-	start := time.Now()
-	http.Get(url)
-	return time.Since(start)
-}
+var ErrorTimeout = errors.New("Response took more than 10 secords. Timeout")
 
-func Racer(a, b string) string {
+func Racer(a, b string) (url string, err error) {
 	select {
 	case <-ping(a):
-		return a
+		return a, nil
 	case <-ping(b):
-		return b
+		return b, nil
+	case <-time.After(10 * time.Second):
+		return "", ErrorTimeout
 	}
 }
 
