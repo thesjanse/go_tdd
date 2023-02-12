@@ -9,8 +9,8 @@ import (
 
 func TestRacer(t *testing.T) {
 	t.Run("test delayed server", func(t *testing.T) {
-		slowServer := makeServer(2)
-		fastServer := makeServer(0)
+		slowServer := makeServer(2 * time.Millisecond)
+		fastServer := makeServer(1 * time.Microsecond)
 		defer slowServer.Close()
 		defer fastServer.Close()
 
@@ -18,7 +18,11 @@ func TestRacer(t *testing.T) {
 		fastURL := fastServer.URL
 
 		expected := fastURL
-		actual, _ := Racer(slowURL, fastURL)
+		actual, err := Racer(slowURL, fastURL)
+
+		if err != nil {
+			t.Fatalf("Got an unexpected error '%v'", err)
+		}
 
 		if actual != expected {
 			t.Errorf("Actual: '%s'; expected: '%s'.", actual, expected)
@@ -26,12 +30,12 @@ func TestRacer(t *testing.T) {
 	})
 
 	t.Run("test timeout", func(t *testing.T) {
-		serverA := makeServer(10 * time.Second)
-		serverB := makeServer(11 * time.Second)
+		serverA := makeServer(10 * time.Millisecond)
+		serverB := makeServer(11 * time.Millisecond)
 		defer serverA.Close()
 		defer serverB.Close()
 
-		_, err := Racer(serverA.URL, serverB.URL)
+		_, err := ConfigurableRacer(serverA.URL, serverB.URL, 9*time.Millisecond)
 		assertError(t, err, ErrorTimeout)
 	})
 }

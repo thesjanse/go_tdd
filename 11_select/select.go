@@ -8,13 +8,26 @@ import (
 
 var ErrorTimeout = errors.New("Response took more than 10 secords. Timeout")
 
+const defaultDelay = 10 * time.Second
+
 func Racer(a, b string) (url string, err error) {
 	select {
 	case <-ping(a):
 		return a, nil
 	case <-ping(b):
 		return b, nil
-	case <-time.After(10 * time.Second):
+	case <-time.After(defaultDelay):
+		return "", ErrorTimeout
+	}
+}
+
+func ConfigurableRacer(a, b string, timeout time.Duration) (url string, err error) {
+	select {
+	case <-ping(a):
+		return a, nil
+	case <-ping(b):
+		return b, nil
+	case <-time.After(timeout):
 		return "", ErrorTimeout
 	}
 }
